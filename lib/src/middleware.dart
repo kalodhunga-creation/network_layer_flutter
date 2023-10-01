@@ -27,16 +27,18 @@ class HttpMiddleware {
 
       String requestUrl = options.baseUrl + options.path;
       logger.d(requestUrl);
-      if (accessToken!.isEmpty) {
-        return handler.reject(DioError(
-            requestOptions: RequestOptions(
-              path: options.path,
-            ),
-            type: DioErrorType.other,
-            error: ApiError(404, "Token is null"))); //continue
-      }
+
       if (tokenRequired) {
-        options.headers['Authorization'] = 'Token $accessToken';
+        if (accessToken!.isEmpty) {
+          return handler.reject(DioError(
+              requestOptions: RequestOptions(
+                path: options.path,
+              ),
+              type: DioErrorType.other,
+              error: ApiError(404, "Token is null"))); //continue
+        } else {
+          options.headers['Authorization'] = 'Token $accessToken';
+        }
       }
       return handler.next(options); //continue
     }, onResponse:
