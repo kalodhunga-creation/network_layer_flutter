@@ -109,7 +109,7 @@ class ApiLayer {
       if (returnRaw) {
         return {'responseJson': responseJson, 'httpStatusCode': httpStatusCode};
       }
-      if (isJson && (httpStatusCode == 200 || httpStatusCode == 201)) {
+      if (isJson && (httpStatusCode! ~/ 100 == 2)) {
         try {
           final responseObject = responseSerializer(responseJson);
           if (responseObject.status == "success") {

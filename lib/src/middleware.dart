@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
 import 'package:network_layer/network_layer.dart';
-import 'package:sentry_dio/sentry_dio.dart';
 
 var logger = Logger();
 
@@ -15,7 +14,6 @@ class HttpMiddleware {
     cacheAgeMin = 15,
     bool tokenRequired = true,
   }) async {
-    dio.addSentry();
     String? accessToken = await ApiConfig.getAccessToken();
     dio.options.baseUrl = baseUrl;
     dio.options.connectTimeout = 60000; //60s

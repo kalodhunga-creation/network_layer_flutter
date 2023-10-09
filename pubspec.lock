@@ -248,14 +248,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.2"
-  http:
-    dependency: transitive
-    description:
-      name: http
-      sha256: "5895291c13fa8a3bd82e76d5627f69e0d85ca6a30dcac95c4ea19a5d555879c2"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.13.6"
   http_parser:
     dependency: transitive
     description:
@@ -264,14 +256,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.2"
-  intl:
-    dependency: transitive
-    description:
-      name: intl
-      sha256: "3bc132a9dbce73a7e4a21a17d06e1878839ffbf975568bc875c60537824b0c4d"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.18.1"
   js:
     dependency: transitive
     description:
@@ -448,22 +432,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.2.1"
-  sentry:
-    dependency: transitive
-    description:
-      name: sentry
-      sha256: a1529c545fcbc899e5dcc7c94ff1c6ad0c334dfc99a3cda366b1da98af7c5678
-      url: "https://pub.dev"
-    source: hosted
-    version: "6.22.0"
-  sentry_dio:
-    dependency: "direct main"
-    description:
-      name: sentry_dio
-      sha256: "40ccc57633b5d2140cd76ad1e8e2f9c45ef70ba9fda7d021240553cce341bce9"
-      url: "https://pub.dev"
-    source: hosted
-    version: "6.22.0"
   sky_engine:
     dependency: transitive
     description: flutter
