@@ -111,6 +111,7 @@ class ApiLayer {
       }
       if (isJson && (httpStatusCode! ~/ 100 == 2)) {
         try {
+          logger.d(responseJson);
           final responseObject = responseSerializer(responseJson);
           if (responseObject.status == "success") {
             return responseObject;
