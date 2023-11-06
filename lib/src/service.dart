@@ -121,7 +121,7 @@ class ApiLayer {
             dioError?.message,
             dioError?.type,
             responseObject.status,
-            responseObject.msg,
+            responseObject.message,
             responseObject.error_code,
             responseObject.error_data,
           ));
