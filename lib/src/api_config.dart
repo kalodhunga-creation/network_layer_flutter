@@ -22,6 +22,10 @@ class ApiConfig {
     await storage.write(key: 'refresh_token', value: refreshToken);
   }
 
+  static Future<void> setAppInitialize({required bool value}) async {
+    await storage.write(key: 'app_initialize', value: "$value");
+  }
+
   static Future<String?> getRefreshToken() async {
     return await storage.read(
       key: 'refresh_token',
@@ -36,6 +40,15 @@ class ApiConfig {
     final token = await storage.read(key: 'access_token');
     logger.e('Auth token ${token ?? 'not found.'}');
     if (token != null) {
+      return true;
+    }
+    return false;
+  }
+
+  static Future<bool> get isAppInitialize async {
+    final isInitialize = await storage.read(key: 'app_initialize');
+    logger.e('Auth token ${isInitialize ?? 'not found.'}');
+    if (isInitialize == 'true') {
       return true;
     }
     return false;
