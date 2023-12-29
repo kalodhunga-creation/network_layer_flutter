@@ -37,7 +37,7 @@ class HttpMiddleware {
               type: DioErrorType.other,
               error: ApiError(404, "Token is null"))); //continue
         } else {
-          options.headers['Authorization'] = 'Token $accessToken';
+          options.headers['Authorization'] = 'Bearer $accessToken';
         }
       }
       return handler.next(options); //continue

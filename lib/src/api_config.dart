@@ -38,7 +38,7 @@ class ApiConfig {
 
   static Future<bool> get isAuthenticated async {
     final token = await storage.read(key: 'access_token');
-    logger.e('Auth token ${token ?? 'not found.'}');
+    logger.d('Auth token ${token ?? 'not found.'}');
     if (token != null) {
       return true;
     }
