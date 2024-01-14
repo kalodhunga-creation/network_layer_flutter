@@ -7,6 +7,14 @@ import 'package:network_layer/network_layer.dart';
 
 enum HttpMethod { get, post, put, patch, delete }
 
+enum DataRequestMethod {
+  GET,
+  POST,
+  PUT,
+  PATCH,
+  DELETE,
+}
+
 typedef ResponseSerializer = dynamic Function(Map<String, dynamic> json);
 
 // abstract class NetworkRequest {
@@ -22,7 +30,7 @@ typedef ResponseSerializer = dynamic Function(Map<String, dynamic> json);
 // }
 
 class ApiLayer {
-  static Future sendRequest(String requestUrl, HttpMethod method,
+  static Future sendRequest(String requestUrl, DataRequestMethod method,
       ResponseSerializer responseSerializer,
       {Map<String, String>? queryParams,
       Map<String, dynamic>? postData,
@@ -47,7 +55,7 @@ class ApiLayer {
       );
 
       switch (method) {
-        case HttpMethod.get:
+        case DataRequestMethod.GET:
           httpResponse = await http.get(
             requestUrl,
             queryParameters: queryParams,
@@ -57,7 +65,7 @@ class ApiLayer {
           );
           break;
 
-        case HttpMethod.post:
+        case DataRequestMethod.POST:
           httpResponse = await http.post(
             requestUrl,
             data: encodedBody,
@@ -68,7 +76,7 @@ class ApiLayer {
           );
           break;
 
-        case HttpMethod.put:
+        case DataRequestMethod.PUT:
           httpResponse = await http.put(
             requestUrl,
             data: encodedBody,
@@ -76,7 +84,7 @@ class ApiLayer {
           );
           break;
 
-        case HttpMethod.patch:
+        case DataRequestMethod.PATCH:
           httpResponse = await http.patch(
             requestUrl,
             data: encodedBody,
@@ -84,7 +92,7 @@ class ApiLayer {
           );
           break;
 
-        case HttpMethod.delete:
+        case DataRequestMethod.DELETE:
           httpResponse = await http.delete(
             requestUrl,
             data: encodedBody,
