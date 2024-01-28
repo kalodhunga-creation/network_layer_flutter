@@ -121,18 +121,19 @@ class ApiLayer {
         try {
           logger.d(responseJson);
           final responseObject = responseSerializer(responseJson);
-          if (responseObject.status == "success") {
-            return responseObject;
-          }
-          return Future.error(ApiError(
-            httpStatusCode,
-            dioError?.message,
-            dioError?.type,
-            responseObject.status,
-            responseObject.message,
-            responseObject.error_code,
-            responseObject.error_data,
-          ));
+          return responseObject;
+          // if (responseObject.status == "success") {
+          //   return responseObject;
+          // }
+          // return Future.error(ApiError(
+          //   httpStatusCode,
+          //   dioError?.message,
+          //   dioError?.type,
+          //   responseObject.status,
+          //   responseObject.message,
+          //   responseObject.error_code,
+          //   responseObject.error_data,
+          // ));
         } catch (error, stackTrace) {
           serviceErrorLogger(error, stackTrace);
           return Future.error(ApiError(0));
