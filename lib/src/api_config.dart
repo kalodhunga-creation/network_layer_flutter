@@ -10,8 +10,8 @@ class ApiConfig {
     await storage.write(key: 'access_token', value: accessToken);
   }
 
-  static Future<String?> getAccessToken() async {
-    return await storage.read(key: 'access_token');
+  static Future<String?>? getAccessToken() async {
+    return (await storage.read(key: 'access_token')) ?? null;
   }
 
   static void setApiAuthority({required String baseUrl}) {
