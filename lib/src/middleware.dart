@@ -29,7 +29,7 @@ class HttpMiddleware {
       logger.d(requestUrl);
 
       if (tokenRequired) {
-        if (accessToken!.isEmpty) {
+        if (accessToken != null) {
           return handler.reject(DioError(
               requestOptions: RequestOptions(
                 path: options.path,
