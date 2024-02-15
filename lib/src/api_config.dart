@@ -1,10 +1,13 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:network_layer/network_layer.dart';
 
+
+ const storage = FlutterSecureStorage();
+
+
 class ApiConfig {
   ApiConfig._();
   static String? _authority;
-  static const storage = FlutterSecureStorage();
 
   static Future<void> setAccessToken({required String accessToken}) async {
     await storage.write(key: 'access_token', value: accessToken);
