@@ -44,7 +44,7 @@ class ApiLayer {
     DioError? dioError;
     var encodedBody = postData != null ? json.encode(postData) : null;
 
-    authority ??= ApiConfig.getApiAuthority();
+    authority ??= secureStorage.getApiAuthority();
     logger.d(authority);
 
     try {

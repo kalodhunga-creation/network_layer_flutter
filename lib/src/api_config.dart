@@ -1,49 +1,51 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:network_layer/network_layer.dart';
 
-const storage = FlutterSecureStorage();
-
 class ApiConfig {
-  ApiConfig._(); // Private constructor
+  static final ApiConfig _instance = ApiConfig._internal();
+  late FlutterSecureStorage storage;
 
-  static final ApiConfig _instance = ApiConfig._(); // Singleton instance
-
-  factory ApiConfig() {
-    return _instance;
+  /// Private constructor, not async
+  ApiConfig._internal() {
+    storage = const FlutterSecureStorage();
   }
+
+  /// static singleton instance getter, not async
+  static ApiConfig get getInstance => _instance;
+
   static String? _authority;
 
-  static Future<void> setAccessToken({required String accessToken}) async {
+  Future<void> setAccessToken({required String accessToken}) async {
     await storage.write(key: 'access_token', value: accessToken);
   }
 
-  static Future<String?> getAccessToken() async {
+  Future<String?> getAccessToken() async {
     return (await storage.read(key: 'access_token'));
   }
 
-  static void setApiAuthority({required String baseUrl}) {
+  void setApiAuthority({required String baseUrl}) {
     _authority = baseUrl;
   }
 
-  static Future<void> setRefreshToken({required String refreshToken}) async {
+  Future<void> setRefreshToken({required String refreshToken}) async {
     await storage.write(key: 'refresh_token', value: refreshToken);
   }
 
-  static Future<void> setAppInitialize({required bool value}) async {
+  Future<void> setAppInitialize({required bool value}) async {
     await storage.write(key: 'app_initialize', value: "$value");
   }
 
-  static Future<String?> getRefreshToken() async {
+  Future<String?> getRefreshToken() async {
     return await storage.read(
       key: 'refresh_token',
     );
   }
 
-  static String? getApiAuthority() {
+  String? getApiAuthority() {
     return _authority;
   }
 
-  static Future<bool> get isAuthenticated async {
+  Future<bool> get isAuthenticated async {
     final token = await storage.read(key: 'access_token');
     if (token != null) {
       return true;
@@ -53,7 +55,7 @@ class ApiConfig {
     return false;
   }
 
-  static Future<bool> get isAppInitialize async {
+  Future<bool> get isAppInitialize async {
     final isInitialize = await storage.read(key: 'app_initialize');
     if (isInitialize == 'true') {
       return true;
@@ -63,7 +65,7 @@ class ApiConfig {
     return false;
   }
 
-  static void clearApiConfig() async {
+  void clearApiConfig() async {
     await storage.deleteAll();
   }
 }

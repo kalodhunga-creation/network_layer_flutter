@@ -3,6 +3,7 @@ import 'package:logger/logger.dart';
 import 'package:network_layer/network_layer.dart';
 
 var logger = Logger();
+final secureStorage = ApiConfig.getInstance;
 
 class HttpMiddleware {
   Dio dio = Dio();
@@ -14,7 +15,7 @@ class HttpMiddleware {
     cacheAgeMin = 15,
     bool tokenRequired = true,
   }) async {
-    String? accessToken = await ApiConfig.getAccessToken();
+    String? accessToken = await secureStorage.getAccessToken();
     dio.options.baseUrl = baseUrl;
     dio.options.connectTimeout = 60000; //60s
     dio.options.receiveTimeout = 60000;
@@ -49,13 +50,13 @@ class HttpMiddleware {
     }, onError: (DioError error, ErrorInterceptorHandler handler) async {
       if (error.response?.statusCode == 401) {
         // If a 401 response is received, refresh the access token
-        String? oldRefreshToken = await ApiConfig.getRefreshToken();
-        String? oldAccessToken = await ApiConfig.getAccessToken();
+        String? oldRefreshToken = await secureStorage.getRefreshToken();
+        String? oldAccessToken = await secureStorage.getAccessToken();
 
         String newAccessToken = ""; //await refreshToken();
         String newRefreshToken = "";
-        ApiConfig.setAccessToken(accessToken: newAccessToken);
-        ApiConfig.setRefreshToken(refreshToken: newRefreshToken);
+        secureStorage.setAccessToken(accessToken: newAccessToken);
+        secureStorage.setRefreshToken(refreshToken: newRefreshToken);
         // Update the request header with the new access token
 
         final originResult = await dio.fetch(error.requestOptions);
