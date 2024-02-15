@@ -1,12 +1,16 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:network_layer/network_layer.dart';
 
-
- const storage = FlutterSecureStorage();
-
+const storage = FlutterSecureStorage();
 
 class ApiConfig {
-  ApiConfig._();
+  ApiConfig._(); // Private constructor
+
+  static final ApiConfig _instance = ApiConfig._(); // Singleton instance
+
+  factory ApiConfig() {
+    return _instance;
+  }
   static String? _authority;
 
   static Future<void> setAccessToken({required String accessToken}) async {
