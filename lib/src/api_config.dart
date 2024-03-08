@@ -49,9 +49,9 @@ class ApiConfig {
     final token = await storage.read(key: 'access_token');
     if (token != null) {
       return true;
+    } else {
+      logger.e('Auth token ${token ?? 'not found.'}');
     }
-    logger.e('Auth token ${token ?? 'not found.'}');
-
     return false;
   }
 
