@@ -58,7 +58,6 @@ class ApiLayer {
         case DataRequestMethod.GET:
           httpResponse = await http.get(
             requestUrl,
-            data: encodedBody,
             queryParameters: queryParams,
             options: enableCache
                 ? buildCacheOptions(Duration(minutes: cacheMaxMin))
