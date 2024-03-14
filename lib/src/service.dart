@@ -136,17 +136,27 @@ class ApiLayer {
           // ));
         } catch (error, stackTrace) {
           serviceErrorLogger(error, stackTrace);
-          return Future.error(ApiError(0));
+          return Future.error(ApiError(
+            httpStatusCode,
+            dioError?.message,
+            dioError?.type,
+            httpResponse.statusMessage,
+            httpResponse.data.toString(),
+          ));
         }
+      } else {
+        logger.d(responseJson);
+        final responseObject = responseSerializer(responseJson);
+        return Future.error(ApiError(
+          httpStatusCode,
+          dioError?.message,
+          dioError?.type,
+          responseObject.status,
+          responseObject.message,
+          responseObject.error_code,
+          responseObject.error_data,
+        ));
       }
-
-      return Future.error(ApiError(
-        httpStatusCode,
-        dioError?.message,
-        dioError?.type,
-        httpResponse.statusMessage,
-        httpResponse.data.toString(),
-      ));
     }
 
     if (dioError != null) {
