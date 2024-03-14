@@ -116,43 +116,66 @@ class ApiLayer {
       final responseJson = httpResponse.data;
       if (returnRaw) {
         return {'responseJson': responseJson, 'httpStatusCode': httpStatusCode};
-      }
-      if (isJson && (httpStatusCode! ~/ 100 == 2)) {
-        try {
+      } else {
+        if (isJson && (httpStatusCode! ~/ 100 == 2)) {
+          try {
+            logger.d(responseJson);
+            final responseObject = responseSerializer(responseJson);
+            return responseObject;
+            // if (responseObject.status == "success") {
+            //   return responseObject;
+            // }
+            // return Future.error(ApiError(
+            //   httpStatusCode,
+            //   dioError?.message,
+            //   dioError?.type,
+            //   responseObject.status,
+            //   responseObject.message,
+            //   responseObject.error_code,
+            //   responseObject.error_data,
+            // ));
+          } catch (error, stackTrace) {
+            serviceErrorLogger(error, stackTrace);
+            return Future.error(ApiError(
+              httpStatusCode,
+              dioError?.message,
+              dioError?.type,
+              httpResponse.statusMessage,
+              httpResponse.data.toString(),
+            ));
+          }
+        } else {
           logger.d(responseJson);
-          final responseObject = responseSerializer(responseJson);
-          return responseObject;
-          // if (responseObject.status == "success") {
-          //   return responseObject;
-          // }
-          // return Future.error(ApiError(
-          //   httpStatusCode,
-          //   dioError?.message,
-          //   dioError?.type,
-          //   responseObject.status,
-          //   responseObject.message,
-          //   responseObject.error_code,
-          //   responseObject.error_data,
-          // ));
-        } catch (error, stackTrace) {
-          serviceErrorLogger(error, stackTrace);
           return Future.error(ApiError(
             httpStatusCode,
             dioError?.message,
             dioError?.type,
-            httpResponse.statusMessage,
-            httpResponse.data.toString(),
+            httpStatusCode.toString(),
+            responseJson['message'],
+            httpStatusCode.toString(),
           ));
         }
-      } else {
+      }
+    }
+
+    if (dioError != null) {
+      try {
+        final responseJson = httpResponse!.data;
+        final int? httpStatusCode = httpResponse.statusCode;
         logger.d(responseJson);
         return Future.error(ApiError(
           httpStatusCode,
           dioError?.message,
           dioError?.type,
-          responseJson['status'],
+          httpStatusCode.toString(),
           responseJson['message'],
-          responseJson['status_code'],
+          httpStatusCode.toString(),
+        ));
+      } catch (e) {
+        return Future.error(ApiError(
+          httpResponse!.statusCode,
+          dioError?.message,
+          dioError?.type,
         ));
       }
     }
