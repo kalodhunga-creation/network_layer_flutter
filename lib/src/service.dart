@@ -159,11 +159,7 @@ class ApiLayer {
       }
     }
 
-    if (dioError != null) {
-      logger.e("Dio Error is null");
-      return Future.error(ApiError(0, dioError.message, dioError.type));
-    }
-    return Future.error(ApiError(0));
+
   }
 }
 
