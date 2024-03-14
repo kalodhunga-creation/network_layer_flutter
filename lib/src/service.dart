@@ -146,20 +146,16 @@ class ApiLayer {
         }
       } else {
         logger.d(responseJson);
-        final responseObject = responseSerializer(responseJson);
         return Future.error(ApiError(
           httpStatusCode,
           dioError?.message,
           dioError?.type,
-          responseObject.status,
-          responseObject.message,
-          responseObject.error_code,
-          responseObject.error_data,
+          responseJson['status'],
+          responseJson['message'],
+          responseJson['status_code'],
         ));
       }
     }
-
-
   }
 }
 
