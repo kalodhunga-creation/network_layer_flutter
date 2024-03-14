@@ -103,9 +103,14 @@ class ApiLayer {
     } on DioError catch (error, stackTrace) {
       dioError = error;
       serviceErrorLogger(error, stackTrace);
-      if (error.error is ApiError) {
-        return Future.error(error.error);
-      }
+      return Future.error(ApiError(
+          dioError?.response!.statusCode,
+          dioError?.message,
+          dioError?.type,
+          dioError?.response!.statusCode.toString(),
+          error.response!.data['message'],
+          dioError?.response!.statusCode.toString(),
+          error.response!.data));
     }
 
     if (httpResponse != null && httpResponse.data != null) {
@@ -155,28 +160,6 @@ class ApiLayer {
             httpStatusCode.toString(),
           ));
         }
-      }
-    }
-
-    if (dioError != null) {
-      try {
-        final responseJson = httpResponse!.data;
-        final int? httpStatusCode = httpResponse.statusCode;
-        logger.d(responseJson);
-        return Future.error(ApiError(
-          httpStatusCode,
-          dioError?.message,
-          dioError?.type,
-          httpStatusCode.toString(),
-          responseJson['message'],
-          httpStatusCode.toString(),
-        ));
-      } catch (e) {
-        return Future.error(ApiError(
-          httpResponse!.statusCode,
-          dioError?.message,
-          dioError?.type,
-        ));
       }
     }
   }
