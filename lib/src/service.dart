@@ -37,12 +37,21 @@ class ApiLayer {
       bool enableCache = false,
       String? authority,
       bool tokenRequired = true,
+      bool isForm = false,
       int cacheMaxMin = 15,
       bool returnRaw = false}) async {
     final HttpMiddleware httpMiddleware = HttpMiddleware();
     Response? httpResponse;
     DioError? dioError;
-    var encodedBody = postData != null ? json.encode(postData) : null;
+    //postData ={
+    //  "image": await MultipartFile.fromFile(selectedImagePath!.path,
+    //               filename: "File${DateTime.now()}.jpeg"),
+    // }
+    var encodedBody = postData != null
+        ? isForm == false
+            ? json.encode(postData)
+            : FormData.fromMap(postData)
+        : null;
 
     authority ??= secureStorage.getApiAuthority();
     logger.d(authority);
