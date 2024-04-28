@@ -5,8 +5,13 @@ import 'package:network_layer/network_layer.dart';
 var logger = Logger();
 
 class SecureStorage {
-  SecureStorage._();
-  static final instance = ApiConfig.getInstance;
+  static final SecureStorage _instance = SecureStorage._internal();
+  late ApiConfig instance;
+
+  /// Private constructor, not async
+  SecureStorage._internal() {
+    instance = ApiConfig.getInstance;
+  }
 }
 
 final secureStorage = ApiConfig.getInstance;
