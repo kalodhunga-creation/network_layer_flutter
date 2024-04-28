@@ -3,6 +3,12 @@ import 'package:logger/logger.dart';
 import 'package:network_layer/network_layer.dart';
 
 var logger = Logger();
+
+class SecureStorage {
+  SecureStorage._();
+  static final instance = ApiConfig.getInstance;
+}
+
 final secureStorage = ApiConfig.getInstance;
 
 class HttpMiddleware {
