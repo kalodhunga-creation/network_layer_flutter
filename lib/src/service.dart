@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:dio_http_cache_lts/dio_http_cache_lts.dart';
 import 'package:network_layer/network_layer.dart';
 
 enum HttpMethod { get, post, put, patch, delete }
@@ -47,6 +46,7 @@ class ApiLayer {
     //  "image": await MultipartFile.fromFile(selectedImagePath!.path,
     //               filename: "File${DateTime.now()}.jpeg"),
     // }
+
     var encodedBody = postData != null
         ? isForm == false
             ? json.encode(postData)
@@ -68,9 +68,6 @@ class ApiLayer {
           httpResponse = await http.get(
             requestUrl,
             queryParameters: queryParams,
-            options: enableCache
-                ? buildCacheOptions(Duration(minutes: cacheMaxMin))
-                : null,
           );
           break;
 
@@ -79,9 +76,6 @@ class ApiLayer {
             requestUrl,
             data: encodedBody,
             queryParameters: queryParams,
-            options: enableCache
-                ? buildCacheOptions(Duration(minutes: cacheMaxMin))
-                : null,
           );
           break;
 

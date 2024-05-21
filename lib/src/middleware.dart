@@ -4,16 +4,6 @@ import 'package:network_layer/network_layer.dart';
 
 var logger = Logger();
 
-class SecureStorage {
-  static final SecureStorage _instance = SecureStorage._internal();
-  late ApiConfig instance;
-
-  /// Private constructor, not async
-  SecureStorage._internal() {
-    instance = ApiConfig.getInstance;
-  }
-}
-
 final secureStorage = ApiConfig.getInstance;
 
 class HttpMiddleware {
@@ -28,8 +18,8 @@ class HttpMiddleware {
   }) async {
     String? accessToken = await secureStorage.getAccessToken();
     dio.options.baseUrl = baseUrl;
-    dio.options.connectTimeout = 60000; //60s
-    dio.options.receiveTimeout = 60000;
+    dio.options.connectTimeout = Duration(seconds: 60000); //60s
+    dio.options.receiveTimeout = Duration(seconds: 60000);
 
     dio.interceptors.add(QueuedInterceptorsWrapper(onRequest:
         (RequestOptions options, RequestInterceptorHandler handler) async {
@@ -46,7 +36,7 @@ class HttpMiddleware {
               requestOptions: RequestOptions(
                 path: options.path,
               ),
-              type: DioErrorType.other,
+              type: DioErrorType.unknown,
               error: ApiError(404, "Token is null"))); //continue
         } else {
           options.headers['Authorization'] = 'Bearer $accessToken';
